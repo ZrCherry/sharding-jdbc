@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cherry.dao.TeacherMapper">
+    <resultMap id="teacher" type="com.cherry.po.Teacher">
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="INTEGER"/>
+        <result property="sex" column="sex" jdbcType="INTEGER"/>
+    </resultMap>
+    <delete id="delete">
+        DELETE FROM teacher WHERE id=#{id}
+    </delete>
+
+    <select id="selectById" resultMap="teacher">
+        SELECT * FROM teacher WHERE id=#{id}
+    </select>
+
+    <select id="selectByIds" resultMap="teacher">
+        SELECT * FROM teacher
+        <if test="list != null and list.size() > 0">
+            WHERE id IN
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO teacher(sex,name) VALUES (#{sex},#{name})
+    </insert>
+
+    <update id="update" parameterType="com.cherry.po.Teacher">
+        UPDATE teacher SET sex=#{param2},name=#{param3}
+        Where id=#{param1}
+    </update>
+
+
+</mapper>
